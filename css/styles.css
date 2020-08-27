@@ -1,0 +1,43 @@
+/* Eléments cachés par défaut */
+#stationInformation, #reservationForm, #reservationButton, #reservationContainer {
+    display: none;
+}
+
+/* Styles généraux */
+body, .panel .panel-title, .form-control, .btn {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.jumbotron {
+    color: white;
+    background-color: #325d88;
+}
+
+#slideshow .panel-body {
+    padding: 0;
+}
+
+#slidePictureContainer, #slidePicture {
+    width: 100%;
+    margin: 0;
+}
+
+#map {
+    height: 400px;
+}
+
+.form-control {
+    font-weight: normal;
+}
+
+.modal-dialog {
+    width: auto;
+    max-width: 300px;
+    margin: 30px auto;
+}
+
+.modal-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}

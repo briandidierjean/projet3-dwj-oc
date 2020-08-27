@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>   
+        <!-- Meta -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <title>Lyon Biking</title>
+        
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/styles.css" />
+        
+        <!-- Icônes -->
+        <link rel="icon" type="image/png" sizes="32x32" href="pictures/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="pictures/favicon-16x16.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="pictures/apple-touch-icon.png">
+        
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+        
+        <!-- Leaflet.MarkerCluster -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+    </head>
+    
+    <body>
+        
+        <!-- Titre principal de la page -->
+        <div class="jumbotron">
+            <div class="container text-center">
+                <h1>Lyon Biking</h1>
+                <h3>Bienvenue sur Lyon Biking, l'applicaiton de réservation de vélo en temps réel à Lyon</h3>
+            </div>
+        </div>
+            
+        <div class="container">
+            
+            <!-- Diaporama -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="slideshow" class="panel panel-primary">
+                        <div class="panel-heading">
+                            <p id="slideText" class="panel-title text-center"></p> <!-- Texte en cours d'affichage -->
+                        </div>
+                        <div class="panel-body">
+                            <p id="slidePictureContainer"><img id="slidePicture" src="" /></p> <!-- Image en cours d'affichage -->
+                        </div>
+                        <div class="panel-footer">
+                            <div id="slideshowButtons" class="btn-group btn-group-justified"> <!-- Boutons du diaporama -->
+                                <div class="btn-group">
+                                    <button id="previousSlideButton" class="btn btn-primary"><span class="glyphicon glyphicon-backward"></span></button>
+                                </div>
+                                <div class="btn-group">
+                                    <button id="stopSlideshowButton" class="btn btn-danger"><span class="glyphicon glyphicon-pause"></span></button>
+                                </div>
+                                <div class="btn-group">
+                                    <button id="nextSlideButton" class="btn btn-primary"><span class="glyphicon glyphicon-forward"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte et informations des stations -->
+            <div id="mapContainer" class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-primary">
+                        <div id="map"></div> <!-- Carte -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">Détails de la station</h3>
+                        </div>
+                        <div id="reservationTutorial" class="panel-body"> <!-- Bloc d'explication de l'application -->
+                            <p class="text-center">Sélectionnez une station pour afficher ses détails</p>
+                        </div>
+                        <div id="stationInformation" class="panel-body"> <!-- Bloc des informations de station -->
+                            <p>Adresse : <span id="stationAddress"></span></p>
+                            <ul class="list-unstyled">
+                                <li><span id="stationAvailableStands"></span> places</li>
+                                <li><span id="stationAvailableBikes"></span> vélo(s) disponible(s)</li>
+                            </ul>
+                            <form id="reservationForm">
+                                <div class="form-group">
+                                    <label for="lastName">Nom : </label>
+                                    <input id="lastName" type="text" name="lastName" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName">Prénom : </label>
+                                    <input id="firstName" type="text" name="firstName" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <input id="displaySignatureButton" type="submit" value="Réserver" class="btn btn-primary btn-block" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Signature -->
+            <div id="signatureContainer" class="modal fade">
+                <div id="test" class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times</button>
+                            <h4 class="modal-title">Signature</h4>
+                        </div>
+                        <div class="row">
+                            <div class="modal-body text-center">
+                                <canvas id="canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input id="reservationButton" class="btn btn-success" type="button" value="Réserver" />
+                            <input id="clearSignatureButton" class="btn btn-danger" type="button" value="Effacer" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Réservation -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="reservationContainer" class="panel panel-primary text-center">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Réservation</h3>
+                        </div>
+                        <div id="reservationInformation" class="panel-body">
+                            <p>
+                                Vélo réservé à la station <span id="reservationAddress"></span> par <span id="reservationName"></span><br />
+                                Temps restant : <span id="minuteCounter"></span> min <span id="secondeCounter"></span> s
+                            </p>
+                        </div>
+                        <div id="expirationInformation" class="panel-body">
+                            <p>Votre réservation à expiré</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        
+        <!-- Bootstrap -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        
+        <!-- JavaScript -->
+        <script src="./dist/polyfill.bundle.js"></script>
+        <script src="./dist/app.bundle.js"></script>
+    </body>
+</html>
